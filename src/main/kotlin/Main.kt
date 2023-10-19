@@ -61,8 +61,8 @@ fun main(args: Array<String>) {
 
     //Additionally, o function's parameter can be nullable
 
-    fun primesInRange(a:Int?, b:Int?=null):ArrayList<Int>{
-        var primes:ArrayList<Int> = ArrayList<Int>()
+    fun primesInRange(a:Int?, b:Int?=null):ArrayList<Int?>{
+        var primes:ArrayList<Int?> = ArrayList()
         if(a!=null && b!=null) {
             for (i in a..b) {
                 if(isPrime(i)==true){
@@ -97,6 +97,139 @@ fun main(args: Array<String>) {
     val myPrimes2= primesInRange(a=100)
 
 
+    //And of course, you can define an array which contains nullable types like this;
+
+    var myNullableArrayList:ArrayList<Int?> = ArrayList()
+    myNullableArrayList=primesInRange(500,550)
+    myNullableArrayList.add(null)
+
+    for((index,element) in myNullableArrayList.withIndex()){
+        println("$index. prime is $element")
+
+    }
+    //When you want to define a variable with nullable type you must explicitly define its data type;
+    //for example you cannot do like this;
+
+    var x =null
+    // what is the data type of x ?? ; we don't know and of course compiler as well
+    //so this doesn't make sense.
+
+    //for example, if we check the data type of x whether is a morph of Any Data Type
+    //(every class inherits "Any" class without having said that)
+
+    println("x is ${if (x is Any) "" else "NOT"} a kind of 'Any' ")
+
+    //we must explicitly indicate the variable's data type like this;
+
+    data class Person(
+            val name:String,
+            val surname:String,
+            val isMarry:Boolean
+            ){
+
+    }
+
+    val ali:Person?=Person("Ali","Erdem",true)
+
+    println("ali is ${if (ali is Any) "" else "NOT"}a 'Any' object")
+
+    //How to access a nullable type's function's and properties;
+
+    //Let's define a nullable variable
+
+
+    data class Animal(
+        val name:String?,
+        val color:String,
+        val age:Int
+    ){
+        fun feed(){
+            println("$name is eating some food...")
+        }
+    }
+
+    //this assignation states an Animal object the variable name =annaCat with can be nullable
+    val annaCat:Animal?=Animal("Anna","BlackBrown",19)
+
+    //if we try to reach some of its properties or behaviors.
+
+    // println(annaCat.feed()) -> compilet gets upset because annaCat can be null and cause errors
+    //Instead,
+
+    //We will control that whether annaCat is null or not;
+
+    if (annaCat != null) {
+        //So this approach is safer, now we are sure that annaCat is not null
+        annaCat.feed()
+    }
+
+    //But there is some another catch
+
+    class myCat{
+        var cat:Animal? = Animal("Anna","BlackBrown",19)
+
+        fun meow(){
+            //we cannot do this ;
+            //cat.feed()
+            //but why????
+        }
+    }
+
+    //Keep things safe with safe calls
+    //— Using safe calls.
+    //Safe calls let you access functions and properties in a simgle operation without
+    //you having to perform a separate null-check.
+    //?. is the safe call operator
+
+    annaCat?.feed()
+    //means only call feed() function variable refers a real object (not null)
+    //this is like saying if(annaCat!=null){annaCat.feed()}
+    //this is named as "Safe Call".
+
+
+    //you can chain safe calls together, for example, like this ;
+
+    data class Car(
+        val model:String?,
+        val age:Int?
+    )
+
+    data class Gallery(
+        val car:ArrayList<Car?>
+    )
+
+    val myGallery:Gallery?=Gallery(arrayListOf<Car?>(Car("bmw",12),Car("bmw",12)))
+
+
+    System.err.println(myGallery?.car?.get(1).toString())
+    //This chain controls Gallery is null or not and car is null or not
+    //So if one of them is null entire expression returns null.
+    //Clearly; If
+
+    var car2:Car? = myGallery?.car?.get(1)
+
+    System.err.println("car2==car ${if(car2==myGallery?.car?.get(1)) "true" else "false"}")
+    println(car2.toString())
+    println(myGallery?.car?.get(1).toString())
+
+    System.err.println("car2===car : ${if(car2===myGallery?.car?.get(1)) "true" else "false"}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
+
