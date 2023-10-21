@@ -19,11 +19,11 @@ fun main(args: Array<String>) {
      *  writing '?' at the end of the data type like this;
      */
 
-    var exString:String?=null
+    var exString: String? = null
     //compiler is okay if we state that the value can be nullable.
 
-    var exChar:Char?=null
-    var exInt:Int?=null
+    var exChar: Char? = null
+    var exInt: Int? = null
 
     /**
      * When you assign a variable to null value this means that your variable's
@@ -40,9 +40,9 @@ fun main(args: Array<String>) {
 
     //you can define nullable type the function's return type like this;
 
-    fun isPrime(candidateNumber:Int):Boolean?{
-        if(candidateNumber==0 || candidateNumber==1) return false
-        else if(candidateNumber==2) return true
+    fun isPrime(candidateNumber: Int): Boolean? {
+        if (candidateNumber == 0 || candidateNumber == 1) return false
+        else if (candidateNumber == 2) return true
         else {
             val sqrtOfNumber = Math.sqrt(candidateNumber.toDouble()).toInt()
             var flag = true;
@@ -56,25 +56,27 @@ fun main(args: Array<String>) {
         }
     }
 
-    println("isPrime(-12) returns ${isPrime(-12)} " +
-            "because the argument is negative")
+    println(
+        "isPrime(-12) returns ${isPrime(-12)} " +
+                "because the argument is negative"
+    )
 
     //Additionally, o function's parameter can be nullable
 
-    fun primesInRange(a:Int?, b:Int?=null):ArrayList<Int?>{
-        var primes:ArrayList<Int?> = ArrayList()
-        if(a!=null && b!=null) {
+    fun primesInRange(a: Int?, b: Int? = null): ArrayList<Int?> {
+        var primes: ArrayList<Int?> = ArrayList()
+        if (a != null && b != null) {
             for (i in a..b) {
-                if(isPrime(i)==true){
+                if (isPrime(i) == true) {
                     primes.add(i)
                 }
 
             }
-        }else if(b==null && a!=null){
-            val c=a+100
+        } else if (b == null && a != null) {
+            val c = a + 100
 
             for (i in a..c) {
-                if(isPrime(i)==true){
+                if (isPrime(i) == true) {
                     primes.add(i)
                 }
 
@@ -88,29 +90,29 @@ fun main(args: Array<String>) {
     //If we run the above function with null parameter;
 
     //we set that if the second parameter is null b will be a+100
-    val myPrimes = primesInRange(100,null)
+    val myPrimes = primesInRange(100, null)
 
-    for ((index, element) in myPrimes.withIndex()){
-        println("My ${index+1}. prime is $element")
+    for ((index, element) in myPrimes.withIndex()) {
+        println("My ${index + 1}. prime is $element")
     }
     //you can just pass the particular arguments to function by setting default values.
-    val myPrimes2= primesInRange(a=100)
+    val myPrimes2 = primesInRange(a = 100)
 
 
     //And of course, you can define an array which contains nullable types like this;
 
-    var myNullableArrayList:ArrayList<Int?> = ArrayList()
-    myNullableArrayList=primesInRange(500,550)
+    var myNullableArrayList: ArrayList<Int?> = ArrayList()
+    myNullableArrayList = primesInRange(500, 550)
     myNullableArrayList.add(null)
 
-    for((index,element) in myNullableArrayList.withIndex()){
+    for ((index, element) in myNullableArrayList.withIndex()) {
         println("$index. prime is $element")
 
     }
     //When you want to define a variable with nullable type you must explicitly define its data type;
     //for example you cannot do like this;
 
-    var x =null
+    var x = null
     // what is the data type of x ?? ; we don't know and of course compiler as well
     //so this doesn't make sense.
 
@@ -122,14 +124,14 @@ fun main(args: Array<String>) {
     //we must explicitly indicate the variable's data type like this;
 
     data class Person(
-            val name:String,
-            val surname:String,
-            val isMarry:Boolean
-            ){
+        val name: String,
+        val surname: String,
+        val isMarry: Boolean
+    ) {
 
     }
 
-    val ali:Person?=Person("Ali","Erdem",true)
+    val ali: Person? = Person("Ali", "Erdem", true)
 
     println("ali is ${if (ali is Any) "" else "NOT"}a 'Any' object")
 
@@ -139,17 +141,17 @@ fun main(args: Array<String>) {
 
 
     data class Animal(
-        val name:String?,
-        val color:String,
-        val age:Int
-    ){
-        fun feed(){
+        val name: String?,
+        val color: String,
+        val age: Int
+    ) {
+        fun feed() {
             println("$name is eating some food...")
         }
     }
 
     //this assignation states an Animal object the variable name =annaCat with can be nullable
-    val annaCat:Animal?=Animal("Anna","BlackBrown",19)
+    val annaCat: Animal? = Animal("Anna", "BlackBrown", 19)
 
     //if we try to reach some of its properties or behaviors.
 
@@ -165,10 +167,10 @@ fun main(args: Array<String>) {
 
     //But there is some another catch
 
-    class myCat{
-        var cat:Animal? = Animal("Anna","BlackBrown",19)
+    class myCat {
+        var cat: Animal? = Animal("Anna", "BlackBrown", 19)
 
-        fun meow(){
+        fun meow() {
             //we cannot do this ;
             //cat.feed()
             //but why????
@@ -190,15 +192,15 @@ fun main(args: Array<String>) {
     //you can chain safe calls together, for example, like this ;
 
     data class Car(
-        val model:String?,
-        val age:Int?
+        val model: String?,
+        val age: Int?
     )
 
     data class Gallery(
-        val car:ArrayList<Car?>
+        val car: ArrayList<Car?>
     )
 
-    val myGallery:Gallery?=Gallery(arrayListOf<Car?>(Car("bmw",12),Car("bmw",12)))
+    val myGallery: Gallery? = Gallery(arrayListOf<Car?>(Car("bmw", 12), Car("bmw", 12)))
 
 
     System.err.println(myGallery?.car?.get(1).toString())
@@ -206,27 +208,140 @@ fun main(args: Array<String>) {
     //So if one of them is null entire expression returns null.
     //Clearly; If
 
-    var car2:Car? = myGallery?.car?.get(1)
+    var car2: Car? = myGallery?.car?.get(1)
 
-    System.err.println("car2==car ${if(car2==myGallery?.car?.get(1)) "true" else "false"}")
+    System.err.println("car2==car ${if (car2 == myGallery?.car?.get(1)) "true" else "false"}")
     println(car2.toString())
     println(myGallery?.car?.get(1).toString())
 
-    System.err.println("car2===car : ${if(car2===myGallery?.car?.get(1)) "true" else "false"}")
+    System.err.println("car2===car : ${if (car2 === myGallery?.car?.get(1)) "true" else "false"}")
+
+    //lateinit keyword
+
+    /**
+     *
+     * The lateinit keyword in Kotlin is used to indicate that properties (fields) inside a class
+     * can be assigned a value at a later time, without an immediate initialization. This can be useful
+     * when there is no suitable initial value for a property, or when you need to initialize it at a later time
+     * for reasons such as dependency injection. For example, when defining a property within a class and you plan
+     * to initialize it at a later time, you can declare the property with the lateinit keyword.
+     * Here's an example:
+     */
+    class DatabaseConnection {
+        lateinit var databaseName: String
+
+        fun connect() {
+            // Code to establish a connection to the database
+            databaseName = "example_database" // Initializing it at a later time
+        }
+    }
+
+    /**
+     * When using lateinit, there are some important points to keep in mind:
+     * 1. A lateinit property will be null from the moment the class is created, so you must initialize it before using it.
+     * 2. If you try to access a lateinit property before it's initialized, it will throw an UninitializedPropertyAccessException exception.
+     * 3. The lateinit keyword can only be used with variable (var) properties, and you must ensure that the property is initialized before attempting to access it.
+     * In this way, in Kotlin, you can use lateinit to defer the initialization of properties within a class until a later point in time.
+     */
+
+    //init blocks
+
+    /**
+     * In Kotlin, the init keyword is used to define an initializer block that will
+     * be executed during the initialization (construction) of a class. This block is executed
+     * when an instance of the class is created and is especially useful for performing necessary
+     * initialization tasks during the class's construction process.
+     *
+     * Here's an example:
+     */
+
+    class Carr(brand: String, model: String) {
+        var  carBrand : String
+        val carModel: String
+
+        init {
+            carBrand = brand
+            carModel = model
+            // Other initialization tasks can be performed here
+        }
+    }
+
+    /**
+     * In the above example, the init block is used to initialize the properties (carBrand and carModel) of
+     * the class. The init block is executed when an instance of the class is created, and it assigns the initial
+     * values.
+     * The init block can be used to perform any logical operations during the class's initialization, and you
+     * can use multiple init blocks if needed. Additionally, the init block can access
+     * the class's properties or other class members.
+     * In summary, the init keyword is used in Kotlin to perform initialization tasks within classes,
+     * and it allows you to execute specific operations during the creation of a class.
+     */
+
+    //let keyword.
+
+    var myStringVariable:String?="I like Kotlin"
+
+    //Instead Of,
+    if(myStringVariable!=null){
+        println("You like java as well then :)")
+    }
+    // you can do like that
+
+    myStringVariable?.let {
+        println("you like java as well then ")
+    }
 
 
+    data class Book(
+        val title:String?="Example Title",
+        val content:String?="Example Content"
+    )
 
+    var myBook:Book?=Book("OD","Content of OD")
 
+    //it keyword
+    myBook?.let {
+        //you can refer myBook variable as "it" but there is a big catch ;
+        //"it" is a non-nullable version of myBook? variable
+        println(it.toString())
+    }
 
+    //Using let with arrays
 
+    var myBookArray:ArrayList<Book?> = arrayListOf(
+        Book("x title","y content"), //0
+        Book("z title","t content"), //1
+        null, //2
+        Book(null,null), //3
+        Book("f content",null)) //4
 
+    for((index,element) in myBookArray.withIndex()){
+        element?.let {
+            println("$index :${it.toString()}")
+        }
 
+    }
 
+    //Using let with streamline (make concise) expression with functions...
 
+    fun getBook():Book?{
+        return Book(null,null)
+        //Note:Book is not null its attributes are null
+    }
 
+    //Instead of,
 
+    var mybook = getBook();
+    if(mybook!=null){
+        println(myBook.toString())
+    }
 
+    //we can do like this
 
+    getBook()?.let {
+        println("let:"+it.toString())
+    }
+    //very safe and consice :))
 
 
 
