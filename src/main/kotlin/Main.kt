@@ -341,7 +341,10 @@ fun main(args: Array<String>) {
     getBook()?.let {
         println("let:"+it.toString())
     }
-    //very safe and consice :))
+    //very safe and concise :)
+
+
+
 
 
 
